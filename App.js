@@ -15,15 +15,11 @@ import {
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
+import { DrawerContent } from './src/screens/drawerContent'
 import SignInScreen from './src/screens/signInScreen'
 import FlashScreen from './src/screens/flashScreen'
+import HomeScreen from './src/screens/homeScreen'
 import { AuthContext } from './src/shared/AuthContext';
 
 const Stack = createStackNavigator()
@@ -53,10 +49,17 @@ const App: () => React$Node = () => {
     <>
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+    <Drawer.Navigator drawerContent={props=> <DrawerContent {...props}/> }>
+      <Drawer.Screen name='Home' component={HomeScreen}/>
+    </Drawer.Navigator>
+
+
+
+      {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Flash' component={FlashScreen} />
         <Stack.Screen name='signInScreen' component={SignInScreen} />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
     </NavigationContainer>
     </AuthContext.Provider>
     </>
