@@ -51,10 +51,22 @@ const App: () => React$Node = () => {
     <NavigationContainer>
 
     <Drawer.Navigator drawerContent={props=> <DrawerContent {...props}/> }>
-      <Drawer.Screen name='Home' component={HomeScreen}/>
+      <Drawer.Screen name='Home' component={HomeScreen} options={{
+        title:'Overview',
+        headerLeft: () => (
+            <Icon.Button name="ios-menu" size={25} backgroundColor="#009387"
+             onPress={() => navigation.openDrawer()}></Icon.Button>
+        )
+        }}/>
     </Drawer.Navigator>
 
-
+    {/* <HomeStack.Screen name="Home" component={HomeScreen} options={{
+        title:'Overview',
+        headerLeft: () => (
+            <Icon.Button name="ios-menu" size={25} backgroundColor="#009387"
+             onPress={() => navigation.openDrawer()}></Icon.Button>
+        )
+        }} /> */}
 
       {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Flash' component={FlashScreen} />
