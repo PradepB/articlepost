@@ -22,9 +22,42 @@ import FlashScreen from './src/screens/flashScreen'
 import HomeScreen from './src/screens/homeScreen'
 import { AuthContext } from './src/shared/AuthContext';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 const App: () => React$Node = () => {
+
+
+  createHomeStack = ({navigation}) => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#009387"
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          }
+        }}
+      >
+        <Stack.Screen
+          name='Home'
+          component={HomeScreen} 
+          options={{
+            title: 'Overview',
+            headerLeft: () => (
+              <Icon.Button name="menu" size={25} backgroundColor="#009387"
+                onPress={() => navigation.openDrawer()}></Icon.Button>
+            )
+          }}
+
+        />
+      </Stack.Navigator>
+    )
+  }
 
   const [isLoading, setIsLoading] = React.useState(true)
   const [userToken, setUserToken] = React.useState(null)
@@ -44,23 +77,17 @@ const App: () => React$Node = () => {
       setIsLoading(false)
     }
   }))
-  
+
   return (
     <>
-    <AuthContext.Provider value={authContext}>
-    <NavigationContainer>
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
 
-    <Drawer.Navigator drawerContent={props=> <DrawerContent {...props}/> }>
-      <Drawer.Screen name='Home' component={HomeScreen} options={{
-        title:'Overview',
-        headerLeft: () => (
-            <Icon.Button name="ios-menu" size={25} backgroundColor="#009387"
-             onPress={() => navigation.openDrawer()}></Icon.Button>
-        )
-        }}/>
-    </Drawer.Navigator>
+          <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+            <Drawer.Screen name='Home'   children={createHomeStack} />
+          </Drawer.Navigator>
 
-    {/* <HomeStack.Screen name="Home" component={HomeScreen} options={{
+          {/* <HomeStack.Screen name="Home" component={HomeScreen} options={{
         title:'Overview',
         headerLeft: () => (
             <Icon.Button name="ios-menu" size={25} backgroundColor="#009387"
@@ -68,12 +95,12 @@ const App: () => React$Node = () => {
         )
         }} /> */}
 
-      {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Flash' component={FlashScreen} />
         <Stack.Screen name='signInScreen' component={SignInScreen} />
       </Stack.Navigator> */}
-    </NavigationContainer>
-    </AuthContext.Provider>
+        </NavigationContainer>
+      </AuthContext.Provider>
     </>
   );
 };
